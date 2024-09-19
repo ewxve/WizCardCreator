@@ -1,12 +1,13 @@
 from card_components import initialize, add_name, add_accuracy, add_cost, add_body, add_school, add_type, add_image, finalize
+from card_presets import scorpion
 
 inputCardSchool = "Balance"
-inputCardName = "Scorpion"
-inputAccuracy = 85
-inputPipCost = 2
-inputBodyText = "160-200 ❼❼ ①① ❼❼ ①①"
+inputCardName = "Victini"
+inputAccuracy = 30
+inputPipCost = 0
+inputBodyText = "10 ①① and -50% ③③ ⑧⑧ to self"
 inputType = "Damage"
-inputImage = "https://www.wannapik.com/media/W1siZiIsIjIwMTYvMDgvMjIvOHF3czVobGtyZF8zMXVlZmx6aTBwX2FuaW0wMzY0LnBuZyJdXQ/49a7519479ceaae7/31ueflzi0p_anim0364.png"
+inputImage = "tini.png"
 
 
 initialize(inputCardSchool)

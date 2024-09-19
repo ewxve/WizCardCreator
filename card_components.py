@@ -1,5 +1,5 @@
 from PIL import Image, ImageFont, ImageDraw
-from text_tools import find_origin, text_wrap
+from text_tools import find_origin, text_wrap, headers
 from dictionaries import iconTagDict
 import requests
 from io import BytesIO
@@ -14,7 +14,7 @@ accuracyFont = ImageFont.truetype('ComicSansBold.ttf', 32)
 pipFont1 = ImageFont.truetype('Shermlock.ttf', 50)
 pipFont2 = ImageFont.truetype('ShermlockOpen.ttf', 51)
 
-bodyFont = ImageFont.truetype('Wizard101.otf', 28)
+bodyFont = ImageFont.truetype('Wizard101.otf', 30)
 
 
 imageWithText: ImageDraw
@@ -86,12 +86,20 @@ def replace_body_text(bodyText: str):
     return newText
 
 
+def symbol_replace(word):
+    if word in iconTagDict:
+        if len(word) == 2:
+            return "01"
+        elif len(word) == 3:
+            return "O0"
+    else:
+        return word
+
+
 def draw_icons(iconData, location: (int, int)):
-    location = (location[0] - 25, location[1])
+    location = (location[0] - 5, location[1] + 5)
     currentIconImage = Image.open(iconTagDict[iconData])
     cardImage.paste(currentIconImage, location, mask=currentIconImage)
-    dot_radius = 3
-    draw = ImageDraw.Draw(cardImage)
 
 
 def add_body(bodyText: str):
@@ -108,14 +116,18 @@ def add_body(bodyText: str):
             case 4:
                 y_text = 335
         for line in lines:
-            xOrigin = round(167 - bodyFont.getbbox(line)[2]/2) + 5
+            fakeLine = ""
+            for word in line.split():
+                fakeLine += symbol_replace(word) + " "
+            fakeLine = fakeLine[:-1]
+            xOrigin = round(167 - bodyFont.getbbox(fakeLine)[2]/2) + 5
             currentOffset = 0
             for word in line.split():
-                left, top, right, bottom = bodyFont.getbbox(word.replace("❼❼", "O0").replace("①①", "O0"))
-                currentOffset += right
                 if word in iconTagDict:
                     draw_icons(word, ((xOrigin + round(currentOffset)), y_text))
-                    line = line.replace(word, "  ", 1)
+                    line = line.replace(word, "  " if len(word) == 2 else "   ", 1)
+                currentOffset += bodyFont.getlength(symbol_replace(word) + " ")
+            print(line)
             imageWithText.text((xOrigin, y_text), line,
                                font=bodyFont, fill=(0, 0, 0), stroke_width=0)
             y_text += bodyFont.getbbox(line)[3]
@@ -136,7 +148,8 @@ def add_type(cardType):
 
 def add_image(image: str, cardSchool):
     if image.startswith("http"):
-        response = requests.get(image)
+        response = requests.get(image, allow_redirects=True, headers=headers)
+        print("Final URL:", response.url)
         mainImage = Image.open(BytesIO(response.content))
     else:
         mainImage = Image.open(image)
