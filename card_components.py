@@ -1,4 +1,4 @@
-from PIL import Image, ImageFont, ImageDraw, ImageChops
+from PIL import Image, ImageFont, ImageDraw
 from text_tools import find_origin, text_wrap
 from dictionaries import iconTagDict
 import requests
