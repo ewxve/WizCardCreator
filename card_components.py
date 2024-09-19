@@ -1,6 +1,5 @@
-from PIL import ImageFont
-from text_tools import *
-from main import img, imageWithText
+from PIL import Image, ImageFont, ImageDraw
+from text_tools import find_origin, text_wrap
 
 
 nameFont = ImageFont.truetype('Shermlock.ttf', 48)
@@ -13,6 +12,17 @@ pipFont1 = ImageFont.truetype('Shermlock.ttf', 50)
 pipFont2 = ImageFont.truetype('ShermlockOpen.ttf', 51)
 
 bodyFont = ImageFont.truetype('Wizard101.otf', 28)
+
+
+imageWithText: ImageDraw
+cardImage: Image
+
+
+def initialize(cardSchool):
+    global imageWithText
+    global cardImage
+    cardImage = Image.open(f'{cardSchool}Back.png')
+    imageWithText = ImageDraw.Draw(cardImage)
 
 
 def add_name(cardName: str):
@@ -91,9 +101,13 @@ def add_body(bodyText: str):
 
 def add_school(schoolIcon):
     schoolImage = Image.open(f'{schoolIcon}Symbol.png')
-    img.paste(schoolImage, (263, 74), mask=schoolImage)
+    cardImage.paste(schoolImage, (263, 74), mask=schoolImage)
 
 
 def add_type(cardType):
     typeImage = Image.open(f'CardTypes/Icon_{cardType}.png')
-    img.paste(typeImage, (261, 260), mask=typeImage)
+    cardImage.paste(typeImage, (261, 260), mask=typeImage)
+
+
+def finalize():
+    cardImage.show()
