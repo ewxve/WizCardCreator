@@ -92,11 +92,6 @@ def draw_icons(iconData, location: (int, int)):
     cardImage.paste(currentIconImage, location, mask=currentIconImage)
     dot_radius = 3
     draw = ImageDraw.Draw(cardImage)
-    draw.ellipse(
-        (location[0] - dot_radius, location[1] - dot_radius,
-         location[0] + dot_radius, location[1] + dot_radius),
-        fill='red'
-    )
 
 
 def add_body(bodyText: str):
@@ -120,7 +115,7 @@ def add_body(bodyText: str):
                 currentOffset += right
                 if word in iconTagDict:
                     draw_icons(word, ((xOrigin + round(currentOffset)), y_text))
-                    #line = line.replace(word, "  ", 1)
+                    line = line.replace(word, "  ", 1)
             imageWithText.text((xOrigin, y_text), line,
                                font=bodyFont, fill=(0, 0, 0), stroke_width=0)
             y_text += bodyFont.getbbox(line)[3]
