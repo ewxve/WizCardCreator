@@ -1,6 +1,8 @@
-from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageFont, ImageDraw, ImageChops
 from text_tools import find_origin, text_wrap
 from dictionaries import iconTagDict
+import requests
+from io import BytesIO
 
 
 nameFont = ImageFont.truetype('Shermlock.ttf', 48)
@@ -129,6 +131,20 @@ def add_school(schoolIcon):
 def add_type(cardType):
     typeImage = Image.open(f'CardTypes/Icon_{cardType}.png')
     cardImage.paste(typeImage, (261, 260), mask=typeImage)
+
+
+def add_image(image: str, cardSchool):
+    if image.startswith("http"):
+        response = requests.get(image)
+        mainImage = Image.open(BytesIO(response.content))
+    else:
+        mainImage = Image.open(image)
+    sizedImage = mainImage.resize((290, 223))
+    sizedImage = sizedImage.convert("RGBA")
+    pngMask = Image.open("ArtMask.png")
+    cardImage.paste(sizedImage, (24, 82), mask=sizedImage)
+    cardBack = Image.open(f'{cardSchool}Back.png')
+    cardImage.paste(cardBack, (0, 0), mask=pngMask)
 
 
 def finalize():
