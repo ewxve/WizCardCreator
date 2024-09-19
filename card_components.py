@@ -1,5 +1,6 @@
 from PIL import Image, ImageFont, ImageDraw
 from text_tools import find_origin, text_wrap
+from dictionaries import iconTagDict
 
 
 nameFont = ImageFont.truetype('Shermlock.ttf', 48)
@@ -78,6 +79,18 @@ def add_cost(pipCost: int):
         exit()
 
 
+def replace_body_text(bodyText: str):
+    newText = bodyText.replace("DMG", "①①").replace("D", "❻❻")
+    return newText
+
+
+def draw_icons(iconData, location: (int, int)):
+    print(iconData)
+    currentIconImage = Image.open(iconTagDict[iconData])
+    print(currentIconImage)
+    cardImage.paste(currentIconImage, location, mask=currentIconImage)
+
+
 def add_body(bodyText: str):
     lines = text_wrap(bodyText, bodyFont)
     if 0 < len(lines) <= 4:
@@ -92,7 +105,16 @@ def add_body(bodyText: str):
             case 4:
                 y_text = 335
         for line in lines:
-            imageWithText.text(((167 - bodyFont.getbbox(line)[2]/2) + 5, y_text), line, font=bodyFont, fill=(0, 0, 0), stroke_width=0)
+            xOrigin = round(167 - bodyFont.getbbox(line)[2]/2) + 5
+            currentOffset = 0
+            for word in line.split():
+                left, top, right, bottom = bodyFont.getbbox(word)
+                currentOffset += right
+                if word in iconTagDict:
+                    draw_icons(word, ((xOrigin + round(currentOffset)), y_text))
+                    line = line.replace(word, "  ", 1)
+            imageWithText.text((xOrigin, y_text), line,
+                               font=bodyFont, fill=(0, 0, 0), stroke_width=0)
             y_text += bodyFont.getbbox(line)[3]
     else:
         print("That is an invalid body length.")

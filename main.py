@@ -1,11 +1,11 @@
 from card_components import initialize, add_name, add_accuracy, add_cost, add_body, add_school, add_type, finalize
 
 inputCardSchool = "Death"
-inputCardName = "Certified Pedophile LOLO"
+inputCardName = "Scarecrow"
 inputAccuracy = 85
 inputPipCost = 5
-inputBodyText = "Target takes 75 DMG per pip and loses 2 pips"
-inputType = "Drain"
+inputBodyText = "Deal 100 ❻❻ ①① per pip and steal 2 pips"
+inputType = "Damage"
 
 
 initialize(inputCardSchool)
