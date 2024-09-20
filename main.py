@@ -11,7 +11,6 @@ inputType = "Damage"
 inputImage = "https://pbs.twimg.com/media/E5b-dPvVIAAomHK.png"
 
 
-
 initialize(inputCardSchool)
 add_image(inputImage, inputCardSchool)
 add_name(inputCardName)
