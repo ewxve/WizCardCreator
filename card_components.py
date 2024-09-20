@@ -105,7 +105,7 @@ def draw_icons(iconData, location: (int, int)):
         case 2:
             location = (location[0] - 7, location[1] + 5)  # Slight offset for 2-character icons
         case 3:
-            location = (location[0], location[1] + 5)  # Slight offset for 3-character icons
+            location = (location[0] - 5, location[1] + 5)  # Slight offset for 3-character icons
     # Open and paste the icon image at the specified location
     currentIconImage = Image.open(iconTagDict[iconData])
     cardImage.paste(currentIconImage, location, mask=currentIconImage)
@@ -187,7 +187,7 @@ def add_body(bodyText: str):
                             line = line.replace(word, "  " if len(word) == 2 else "   ", 1)
 
                 # Update currentOffset based on the length of the word
-                currentOffset += bodyFont.getlength(symbol_replace(word_base if word[-1] in [",", ".", ":", ";"] else word) + (" " if word not in iconTagDict else ""))
+                currentOffset += bodyFont.getlength(symbol_replace(word_base if word[-1] in [",", ".", ":", ";"] else word) + (" "if word not in iconTagDict else ""))
             # Draw the modified line in the center
             line = line.rstrip()
             #print(f'final xOrigin = {xOrigin}')

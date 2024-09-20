@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
-from card_components import (initialize, add_name, add_accuracy, add_cost, add_body, add_school, add_type, add_image,
-                             finalize)
+from card_components import initialize, add_name, add_accuracy, add_cost, add_body, add_school, add_type, add_image, finalize
 
 
 app = Flask(__name__, static_url_path='', static_folder='.')
@@ -35,5 +34,6 @@ def index():
 
 
 if __name__ == '__main__':
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
+    app.run(debug=True)
+    #from waitress import serve
+    #serve(app, host="0.0.0.0", port=8080)
