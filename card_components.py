@@ -3,6 +3,7 @@ from text_tools import find_origin, text_wrap, headers
 from dictionaries import iconTagDict
 import requests
 from io import BytesIO
+import re
 
 
 nameFont = ImageFont.truetype('Shermlock.ttf', 48)
@@ -111,6 +112,12 @@ def draw_icons(iconData, location: (int, int)):
 
 
 def add_body(bodyText: str):
+    circled_numbers = '|'.join(iconTagDict.keys())  # Assuming iconTagDict has the number symbols as keys
+    pattern = rf'({circled_numbers})(?={circled_numbers})'
+
+    # Use regex to add a space between two sets of circled numbers
+    bodyText = re.sub(pattern, r'\1 ', bodyText)
+
     lines = text_wrap(bodyText, bodyFont)  # Wrap the text into lines based on the font
 
     if 0 < len(lines) <= 4:
@@ -204,7 +211,6 @@ def add_type(cardType):
 def add_image(image: str, cardSchool):
     if image.startswith("http"):
         response = requests.get(image, allow_redirects=True, headers=headers)
-        print("Final URL:", response.url)
         mainImage = Image.open(BytesIO(response.content))
     else:
         mainImage = Image.open(image)

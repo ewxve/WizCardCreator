@@ -4,54 +4,192 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Form</title>
+    <style>
+        :root {
+            --input-color: #99A3BA;
+            --input-border: #CDD9ED;
+            --input-background: #fff;
+            --input-placeholder: #CBD1DC;
+            --input-border-focus: #275EFE;
+            --group-color: var(--input-color);
+            --group-border: var(--input-border);
+            --group-background: #EEF4FF;
+            --group-color-focus: #fff;
+            --group-border-focus: var(--input-border-focus);
+            --group-background-focus: #678EFE;
+        }
+
+        .form-field {
+            display: block;
+            width: 100%;
+            padding: 8px 16px;
+            line-height: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: inherit;
+            border-radius: 6px;
+            -webkit-appearance: none;
+            color: var(--input-color);
+            border: 1px solid var(--input-border);
+            background: var(--input-background);
+            transition: border .3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-field::placeholder {
+            color: var(--input-placeholder);
+        }
+
+        .form-field:focus {
+            outline: none;
+            border-color: var(--input-border-focus);
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Mukta Malar', Arial;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: #F5F9FF;
+        }
+
+        .form-group {
+            max-width: 360px;
+            margin-bottom: 32px;
+            width: 100%;
+        }
+
+        #iconBar {
+            overflow-x: auto;
+            white-space: nowrap;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .icon-button {
+            cursor: pointer;
+            width: 32px; /* Adjust size as needed */
+            height: 32px; /* Adjust size as needed */
+            margin-right: 5px; /* Spacing between icons */
+        }
+    </style>
+    <script>
+        function addSymbol(symbol) {
+            const textArea = document.getElementById('bodyText');
+            const startPos = textArea.selectionStart;
+            const endPos = textArea.selectionEnd;
+            const text = textArea.value;
+
+            textArea.value = text.slice(0, startPos) + symbol + text.slice(endPos);
+            textArea.focus();
+            textArea.selectionStart = textArea.selectionEnd = startPos + symbol.length;
+        }
+    </script>
 </head>
 <body>
     <h1>Enter Card Info</h1>
-    <form method="POST">
-        <label for="school">Card School:</label>
-        <select id="school" name="school" required>
-            <option value="Fire">Fire</option>
-            <option value="Ice">Ice</option>
-            <option value="Myth">Myth</option>
-            <option value="Storm">Storm</option>
-            <option value="Life">Life</option>
-            <option value="Death">Death</option>
-            <option value="Balance">Balance</option>
-            <option value="Astral">Astral</option>
-            <option value="Sun">Sun</option>
-            <option value="Lunar">Lunar</option>
-        </select><br>
-        <input type="text" name="cardname" placeholder="Name" required><br>
-        <input type="text" name="accuracy" placeholder="Accuracy 0-100" required><br>
-        <input type="text" name="body" placeholder="Main text" required><br>
-        <label for="cost">Pip Cost (0-9):</label>
-        <select id="cost" name="cost" required>
-            {% for i in range(10) %}
-                <option value="{{ i }}">{{ i }}</option>
-            {% endfor %}
-        </select><br>
-        <label for="type">Card Type:</label>
-        <select id="type" name="type" required>
-            <option value="Damage">Damage</option>
-            <option value="All Enemies">All Enemies</option>
-            <option value="Healing">Healing</option>
-            <option value="Steal">Steal</option>
-            <option value="Charm">Charm</option>
-            <option value="Ward">Ward</option>
-            <option value="Aura">Aura</option>
-            <option value="Global">Global</option>
-            <option value="Enchantment">Enchantment</option>
-            <option value="Manipulation">Manipulation</option>
-            <option value="Polymorph">Polymorph</option>
-            <option value="Mutate">Mutate</option>
-            <option value="Shadow">Shadow</option>
-        </select><br>
-        <input type="text" name="image" placeholder="Enter an image URL" required>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="form-group">
+        <form method="POST">
+            <label for="school">Card School:</label>
+            <select id="school" name="school" required class="form-field">
+                <option value="Fire">Fire</option>
+                <option value="Ice">Ice</option>
+                <option value="Myth">Myth</option>
+                <option value="Storm">Storm</option>
+                <option value="Life">Life</option>
+                <option value="Death">Death</option>
+                <option value="Balance">Balance</option>
+                <option value="Astral">Astral</option>
+                <option value="Sun">Sun</option>
+                <option value="Lunar">Lunar</option>
+            </select><br>
+            <input type="text" name="cardname" placeholder="Name" required class="form-field"><br>
+            <input type="text" name="accuracy" placeholder="Accuracy 0-100" required class="form-field"><br>
+            <label for="cost">Pip Cost (0-9):</label>
+            <select id="cost" name="cost" required class="form-field">
+                {% for i in range(10) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select><br>
+            <label for="type">Card Type:</label>
+            <select id="type" name="type" required class="form-field">
+                <option value="Damage">Damage</option>
+                <option value="All Enemies">All Enemies</option>
+                <option value="Healing">Healing</option>
+                <option value="Steal">Steal</option>
+                <option value="Charm">Charm</option>
+                <option value="Ward">Ward</option>
+                <option value="Aura">Aura</option>
+                <option value="Global">Global</option>
+                <option value="Enchantment">Enchantment</option>
+                <option value="Manipulation">Manipulation</option>
+                <option value="Polymorph">Polymorph</option>
+                <option value="Mutate">Mutate</option>
+                <option value="Shadow">Shadow</option>
+            </select><br>
+            <input type="text" name="image" placeholder="Enter an image URL" required class="form-field"><br>
+            <textarea id="bodyText" name="body" placeholder="Main text" required class="form-field" style="resize: none;"></textarea>
+
+            <div id="iconBar">
+                <img src="CardIcons/Icon_Fire.png" alt="Fire" class="icon-button" onclick="addSymbol('❶❶')" />
+                <img src="CardIcons/Icon_Ice.png" alt="Ice" class="icon-button" onclick="addSymbol('❷❷')" />
+                <img src="CardIcons/Icon_Myth.png" alt="Myth" class="icon-button" onclick="addSymbol('❸❸')" />
+                <img src="CardIcons/Icon_Storm.png" alt="Storm" class="icon-button" onclick="addSymbol('❹❹')" />
+                <img src="CardIcons/Icon_Life.png" alt="Life" class="icon-button" onclick="addSymbol('❺❺')" />
+                <img src="CardIcons/Icon_Death.png" alt="Death" class="icon-button" onclick="addSymbol('❻❻')" />
+                <img src="CardIcons/Icon_Balance.png" alt="Balance" class="icon-button" onclick="addSymbol('❼❼')" />
+                <img src="CardIcons/Icon_Astral.png" alt="Astral" class="icon-button" onclick="addSymbol('❽❽')" />
+                <img src="CardIcons/Icon_Lunar.png" alt="Lunar" class="icon-button" onclick="addSymbol('❾❾')" />
+                <img src="CardIcons/Icon_Sun.png" alt="Sun" class="icon-button" onclick="addSymbol('❿❿')" />
+
+                <img src="CardIcons/Icon_Damage.png" alt="Damage" class="icon-button" onclick="addSymbol('①①')" />
+                <img src="CardIcons/Icon_DamageFlat.png" alt="Damage Flat" class="icon-button" onclick="addSymbol('②②')" />
+                <img src="CardIcons/Icon_Accuracy.png" alt="Accuracy" class="icon-button" onclick="addSymbol('③③')" />
+                <img src="CardIcons/Icon_Absorb.png" alt="Absorb" class="icon-button" onclick="addSymbol('④④')" />
+                <img src="CardIcons/Icon_Blade.png" alt="Blade" class="icon-button" onclick="addSymbol('⑤⑤')" />
+                <img src="CardIcons/Icon_Block.png" alt="Block" class="icon-button" onclick="addSymbol('⑥⑥')" />
+                <img src="CardIcons/Icon_CharmP.png" alt="CharmP" class="icon-button" onclick="addSymbol('⑦⑦')" />
+                <img src="CardIcons/Icon_CharmN.png" alt="Charm N" class="icon-button" onclick="addSymbol('⑧⑧')" />
+                <img src="CardIcons/Icon_Critical.png" alt="Critical" class="icon-button" onclick="addSymbol('⑨⑨')" />
+                <img src="CardIcons/Icon_Global.png" alt="Global" class="icon-button" onclick="addSymbol('⑩⑩')" />
+                <img src="CardIcons/Icon_Enemy.png" alt="Enemy" class="icon-button" onclick="addSymbol('⑪⑪')" />
+                <img src="CardIcons/Icon_Enemies.png" alt="Enemies" class="icon-button" onclick="addSymbol('⑫⑫⑫')" />
+                <img src="CardIcons/Icon_Friend.png" alt="Friend" class="icon-button" onclick="addSymbol('⑬⑬')" />
+                <img src="CardIcons/Icon_Friends.png" alt="Friends" class="icon-button" onclick="addSymbol('⑭⑭⑭')" />
+                <img src="CardIcons/Icon_Self.png" alt="Self" class="icon-button" onclick="addSymbol('⑮⑮')" />
+                <img src="CardIcons/Icon_Round.png" alt="Round" class="icon-button" onclick="addSymbol('⑯⑯')" />
+                <img src="CardIcons/Icon_Resist.png" alt="Resist" class="icon-button" onclick="addSymbol('⑰⑰')" />
+                <img src="CardIcons/Icon_ResistFlat.png" alt="Resist Flat" class="icon-button" onclick="addSymbol('⑱⑱')" />
+                <img src="CardIcons/Icon_Pip.png" alt="Pip" class="icon-button" onclick="addSymbol('⑲⑲')" />
+                <img src="CardIcons/Icon_PipPower.png" alt="Pip Power" class="icon-button" onclick="addSymbol('⑳⑳')" />
+                <img src="CardIcons/Icon_PipShad.png" alt="Pip Shad" class="icon-button" onclick="addSymbol('㉑㉑')" />
+                <img src="CardIcons/Icon_Pierce.png" alt="Pierce" class="icon-button" onclick="addSymbol('㉒㉒')" />
+                <img src="CardIcons/Icon_Stun.png" alt="Stun" class="icon-button" onclick="addSymbol('㉓㉓')" />
+                <img src="CardIcons/Icon_StunResist.png" alt="Stun Resist" class="icon-button" onclick="addSymbol('㉔㉔')" />
+                <img src="CardIcons/Icon_Trap.png" alt="Trap" class="icon-button" onclick="addSymbol('㉕㉕')" />
+                <img src="CardIcons/Icon_WardP.png" alt="Ward P" class="icon-button" onclick="addSymbol('㉖㉖')" />
+                <img src="CardIcons/Icon_WardN.png" alt="Ward N" class="icon-button" onclick="addSymbol('㉗㉗')" />
+                <img src="CardIcons/Icon_Outgoing.png" alt="Outgoing" class="icon-button" onclick="addSymbol('㉘㉘')" />
+                <img src="CardIcons/Icon_Incoming.png" alt="Incoming" class="icon-button" onclick="addSymbol('㉙㉙')" />
+                <img src="CardIcons/Icon_Minion.png" alt="Minion" class="icon-button" onclick="addSymbol('㉚㉚')" />
+                <img src="CardIcons/Icon_HealAndDrain.png" alt="Heal and Drain" class="icon-button" onclick="addSymbol('㉛㉛')" />
+                <img src="CardIcons/Icon_Dot.png" alt="Dot" class="icon-button" onclick="addSymbol('㉜㉜')" />
+                <img src="CardIcons/Icon_Heal.png" alt="Heal" class="icon-button" onclick="addSymbol('㉝㉝')" />
+                <img src="CardIcons/Icon_Drain.png" alt="Drain" class="icon-button" onclick="addSymbol('㉞㉞')" />
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
     {% if card_name %}
         <h2>Custom Card: {{ card_name }} ({{ card_school }})</h2>
-        <img src="{{ url_for('static', filename='CustomCard.png') }}" alt="Background Image">
+        <img src="{{ url_for('static', filename='static/CustomCard.png') }}" alt="{{ card_name }}">
     {% endif %}
 </body>
 </html>

@@ -5,7 +5,7 @@ iconTagDict = {
     "④④": "CardIcons/Icon_Absorb.png",
     "⑤⑤": "CardIcons/Icon_Blade.png",
     "⑥⑥": "CardIcons/Icon_Block.png",
-    "⑦⑦": "CardIcons/Icon_Charm.png",
+    "⑦⑦": "CardIcons/Icon_CharmP.png",
     "⑧⑧": "CardIcons/Icon_CharmN.png",
     "⑨⑨": "CardIcons/Icon_Critical.png",
     "⑩⑩": "CardIcons/Icon_Global.png",
