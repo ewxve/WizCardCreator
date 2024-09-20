@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
-from card_components import initialize, add_name, add_accuracy, add_cost, add_body, add_school, add_type, add_image, finalize
+from card_components import (initialize, add_name, add_accuracy, add_cost, add_body, add_school, add_type, add_image,
+                             finalize)
 
 
 app = Flask(__name__, static_url_path='', static_folder='.')
