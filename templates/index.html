@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Form</title>
+</head>
+<body>
+    <h1>Enter Card Info</h1>
+    <form method="POST">
+        <label for="school">Card School:</label>
+        <select id="school" name="school" required>
+            <option value="Fire">Fire</option>
+            <option value="Ice">Ice</option>
+            <option value="Myth">Myth</option>
+            <option value="Storm">Storm</option>
+            <option value="Life">Life</option>
+            <option value="Death">Death</option>
+            <option value="Balance">Balance</option>
+            <option value="Astral">Astral</option>
+            <option value="Sun">Sun</option>
+            <option value="Lunar">Lunar</option>
+        </select><br>
+        <input type="text" name="cardname" placeholder="Name" required><br>
+        <input type="text" name="accuracy" placeholder="Accuracy 0-100" required><br>
+        <input type="text" name="body" placeholder="Main text" required><br>
+        <label for="cost">Pip Cost (0-9):</label>
+        <select id="cost" name="cost" required>
+            {% for i in range(10) %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="type">Card Type:</label>
+        <select id="type" name="type" required>
+            <option value="Damage">Damage</option>
+            <option value="All Enemies">All Enemies</option>
+            <option value="Healing">Healing</option>
+            <option value="Steal">Steal</option>
+            <option value="Charm">Charm</option>
+            <option value="Ward">Ward</option>
+            <option value="Aura">Aura</option>
+            <option value="Global">Global</option>
+            <option value="Enchantment">Enchantment</option>
+            <option value="Manipulation">Manipulation</option>
+            <option value="Polymorph">Polymorph</option>
+            <option value="Mutate">Mutate</option>
+            <option value="Shadow">Shadow</option>
+        </select><br>
+        <input type="text" name="image" placeholder="Enter an image URL" required>
+        <button type="submit">Submit</button>
+    </form>
+    {% if card_name %}
+        <h2>Custom Card: {{ card_name }} ({{ card_school }})</h2>
+        <img src="{{ url_for('static', filename='CustomCard.png') }}" alt="Background Image">
+    {% endif %}
+</body>
+</html>

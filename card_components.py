@@ -52,9 +52,10 @@ def add_name(cardName: str):
                 exit()
 
 
-def add_accuracy(hitChance: int):
-    hitChanceString = str(hitChance) + "%"
-    if 0 <= hitChance <= 100:
+def add_accuracy(hitChance: str):
+    hitChance.replace("%", "")
+    hitChanceString = hitChance + "%"
+    if 0 <= int(hitChance) <= 100:
         match len(hitChanceString):
             case 2:
                 titleLocation = (20, 264)
@@ -69,15 +70,15 @@ def add_accuracy(hitChance: int):
         exit()
 
 
-def add_cost(pipCost: int):
-    pipCostString = str(pipCost)
-    if 0 <= pipCost <= 9:
+def add_cost(pipCost: str):
+    pipCostString = pipCost
+    if 0 <= int(pipCost) <= 9 or pipCost.lower() == "x":
         pipCostLocation = (34, 62)
         imageWithText.text(pipCostLocation, pipCostString, font=pipFont1, fill=(255, 255, 0))
         imageWithText.text((pipCostLocation[0] - 1, pipCostLocation[1] - 6), pipCostString, font=pipFont2,
                            fill=(0, 0, 0), stroke_width=0)
     else:
-        print("That is an invalid pip cost. Must be a whole number from 0-9")
+        print("That is an invalid pip cost. Must be a whole number from 0-9 or X")
         exit()
 
 
@@ -190,8 +191,6 @@ def add_body(bodyText: str):
             y_text += bodyFont.getbbox(line)[3]
 
 
-
-
 def add_school(schoolIcon):
     schoolImage = Image.open(f'{schoolIcon}Symbol.png')
     cardImage.paste(schoolImage, (263, 74), mask=schoolImage)
@@ -218,4 +217,5 @@ def add_image(image: str, cardSchool):
 
 
 def finalize():
-    cardImage.show()
+    cardImage.save("static/CustomCard.png")
+    #cardImage.show()
