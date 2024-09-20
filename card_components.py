@@ -87,25 +87,33 @@ def replace_body_text(bodyText: str):
 
 
 def symbol_replace(word):
+    # Replace the word with a placeholder based on its length if it's an icon
     if word in iconTagDict:
         if len(word) == 2:
-            return "01"
+            return "01"  # Placeholder for 2-character icons
         elif len(word) == 3:
-            return "O0"
+            return "O0O"  # Placeholder for 3-character icons
     else:
-        return word
+        return word  # Return the word unchanged if it's not an icon
 
 
 def draw_icons(iconData, location: (int, int)):
-    location = (location[0] - 5, location[1] + 5)
+    # Adjust the icon's position based on its length
+    match len(iconData):
+        case 2:
+            location = (location[0] - 7, location[1] + 5)  # Slight offset for 2-character icons
+        case 3:
+            location = (location[0], location[1] + 5)  # Slight offset for 3-character icons
+    # Open and paste the icon image at the specified location
     currentIconImage = Image.open(iconTagDict[iconData])
     cardImage.paste(currentIconImage, location, mask=currentIconImage)
 
 
 def add_body(bodyText: str):
-    lines = text_wrap(bodyText, bodyFont)
+    lines = text_wrap(bodyText, bodyFont)  # Wrap the text into lines based on the font
+
     if 0 < len(lines) <= 4:
-        y_text = 395
+        y_text = 395  # Initial vertical position for text
         match len(lines):
             case 1:
                 y_text = 395
@@ -115,25 +123,73 @@ def add_body(bodyText: str):
                 y_text = 355
             case 4:
                 y_text = 335
+
         for line in lines:
-            fakeLine = ""
+            fakeLine = ""  # For constructing the line with symbols replaced
+
+            # Replace symbols or icons in the line
             for word in line.split():
-                fakeLine += symbol_replace(word) + " "
-            fakeLine = fakeLine[:-1]
-            xOrigin = round(167 - bodyFont.getbbox(fakeLine)[2]/2) + 5
-            currentOffset = 0
+                # Check if the word has punctuation (like commas) at the end
+                if word[-1] in [",", ".", ":", ";"]:
+                    word_base = word[:-1]
+                    punctuation = word[-1]
+                    fakeLine += symbol_replace(word_base) + punctuation + " "
+                else:
+                    fakeLine += symbol_replace(word) + " "
+                if line.split().index(word) > 0:
+                    if line.split()[line.split().index(word) - 1] in iconTagDict:
+                        fakeLine = fakeLine[:-1]
+            fakeLine = fakeLine.replace("01 01", "0101")
+            fakeLine = fakeLine.rstrip()  # Remove trailing space from fakeLine
+            #print(fakeLine)
+            # Calculate the x-origin based on the canvas width
+            image_width = 334  # Set this to your actual image width
+            xOrigin = round((image_width / 2) - (bodyFont.getlength(fakeLine) / 2))
+            #print(f'fakeLine xOrigin = {xOrigin}')
+
+            currentOffset = 0  # Track offset for icon positioning
+
             for word in line.split():
-                if word in iconTagDict:
-                    draw_icons(word, ((xOrigin + round(currentOffset)), y_text))
-                    line = line.replace(word, "  " if len(word) == 2 else "   ", 1)
-                currentOffset += bodyFont.getlength(symbol_replace(word) + " ")
-            print(line)
-            imageWithText.text((xOrigin, y_text), line,
-                               font=bodyFont, fill=(0, 0, 0), stroke_width=0)
+                # Handle words with punctuation
+                if word[-1] in [",", ".", ":", ";"]:
+                    word_base = word[:-1]
+                    punctuation = word[-1]
+                    if word_base in iconTagDict:
+                        draw_icons(word_base, (xOrigin + round(currentOffset), y_text))
+                        #print((xOrigin + round(currentOffset), y_text))
+                        # Replace the icon word with spaces for alignment
+                        line = line.replace(word_base, "  " if len(word_base) == 2 else "    ", 1)
+                else:
+                    if word in iconTagDict:
+                        try:
+                            if line.split()[line.split().index(word)+1] not in iconTagDict:
+                                draw_icons(word, (xOrigin + round(currentOffset), y_text))
+
+                                # Replace the icon word with spaces
+                                line = line.replace(word, "  " if len(word) == 2 else "   ", 1)
+                            else:
+                                draw_icons(word, (xOrigin + round(currentOffset), y_text))
+
+                                # Replace the icon word with spaces
+                                line = line.replace(word, " " if len(word) == 2 else "  ", 1)
+                        except IndexError:
+                            draw_icons(word, (xOrigin + round(currentOffset), y_text))
+
+                            # Replace the icon word with spaces
+                            line = line.replace(word, "  " if len(word) == 2 else "   ", 1)
+
+                # Update currentOffset based on the length of the word
+                currentOffset += bodyFont.getlength(symbol_replace(word_base if word[-1] in [",", ".", ":", ";"] else word) + (" " if word not in iconTagDict else ""))
+            # Draw the modified line in the center
+            line = line.rstrip()
+            #print(f'final xOrigin = {xOrigin}')
+            #imageWithText.text((xOrigin, y_text), fakeLine, font=bodyFont, fill=(0, 0, 0), stroke_width=0)
+            imageWithText.text((xOrigin, y_text), line, font=bodyFont, fill=(0, 0, 0), stroke_width=0)
+            #print(line)
+            # Move y_text down to the next line
             y_text += bodyFont.getbbox(line)[3]
-    else:
-        print("That is an invalid body length.")
-        exit()
+
+
 
 
 def add_school(schoolIcon):
