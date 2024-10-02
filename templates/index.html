@@ -179,13 +179,13 @@
                 <option value="Lunar">Lunar</option>
             </select><br>
             <label for="cardname">Card Name:</label>
-            <input type="text" id="cardname" name="cardname" placeholder="Card Name" required class="form-field"><br>
+            <input type="text" id="cardname" name="cardname" placeholder="Card Name" required class="form-field" value="{{ card_name if card_name else '' }}"><br>
             <label for="cost">Pip Cost (0-9):</label>
             <select id="cost" name="cost" required class="form-field">
-                {% for i in range(10) %}
+                <option value="X">X</option>
+                {% for i in range(15) %}
                     <option value="{{ i }}">{{ i }}</option>
                 {% endfor %}
-                <option value="X">X</option>
             </select><br>
             <label for="type">Card Type:</label>
             <select id="type" name="type" required class="form-field">
@@ -204,9 +204,9 @@
                 <!-- <option value="Shadow">Shadow</option> -->
             </select><br>
             <label for="image">Card Art:</label>
-            <input type="text" name="image" id="image" placeholder="Enter an image URL" required class="form-field"><br>
+            <input type="text" name="image" id="image" placeholder="Enter an image URL" required class="form-field" value="{{ card_image if card_image else '' }}"><br>
             <label for="bodyText">Main Text:</label>
-            <textarea id="bodyText" name="body" placeholder="Type the desired card effects and click below to insert icons" required class="form-field" style="resize: none;"></textarea>
+            <textarea id="bodyText" name="body" placeholder="Type the desired card effects and click below to insert icons" required class="form-field" style="resize: none;">{{ card_body if card_body else '' }}</textarea>
 
             <div id="iconBar">
                 <img src="CardIcons/Icon_Fire.png" alt="Fire" class="icon-button" onclick="addSymbol('❶❶')" />
@@ -258,7 +258,7 @@
             <div class="slidecontainer">
                 <!-- <label for="accuracy">Accuracy (0-100):</label> -->
                 <p>Accuracy: <span id="slider-output"></span></p>
-                <input type="range" min="0" max="100" value="100" name="accuracy" class="slider" id="accuracy">
+                <input type="range" min="0" max="100" value="{{ accuracy if card_accuracy else 100 }}" name="accuracy" class="slider" id="accuracy">
             </div>
             <br>
 
@@ -278,9 +278,9 @@
             const endPos = textArea.selectionEnd;
             const text = textArea.value;
 
-            textArea.value = text.slice(0, startPos) + symbol + text.slice(endPos);
+            textArea.value = text.slice(0, startPos) + " " + symbol + " " + text.slice(endPos);
             textArea.focus();
-            textArea.selectionStart = textArea.selectionEnd = startPos + symbol.length;
+            textArea.selectionStart = textArea.selectionEnd = startPos + symbol.length + 2;
         }
         var slider = document.getElementById("accuracy");
         var output = document.getElementById("slider-output");

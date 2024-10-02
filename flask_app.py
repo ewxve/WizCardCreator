@@ -9,6 +9,11 @@ app = Flask(__name__, static_url_path='', static_folder='.')
 def index():
     inputCardName = ""
     inputCardSchool = ""
+    inputPipCost = ""
+    inputType = ""
+    inputImage = ""
+    inputBodyText = ""
+
     if request.method == 'POST':
         inputCardSchool = request.form.get('school')
         inputCardName = request.form.get('cardname')
@@ -30,10 +35,12 @@ def index():
 
         finalize()
 
-    return render_template('index.html', card_name=inputCardName, card_school=inputCardSchool)
+        return render_template('index.html', card_name=inputCardName, card_school=inputCardSchool, card_cost=inputPipCost, card_type=inputType, card_image=inputImage, card_body=inputBodyText)
+
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
+    app.run(debug=True)
+    #from waitress import serve
+    #serve(app, host="0.0.0.0", port=8080)

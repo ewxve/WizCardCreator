@@ -78,6 +78,10 @@ def add_cost(pipCost: str):
         imageWithText.text(pipCostLocation, pipCostString, font=pipFont1, fill=(255, 255, 0))
         imageWithText.text((pipCostLocation[0] - 1, pipCostLocation[1] - 6), pipCostString, font=pipFont2,
                            fill=(0, 0, 0), stroke_width=0)
+    elif int(pipCost) <= 14:
+        pipCostLocation = (23, 62)
+        imageWithText.text(pipCostLocation, pipCostString, font=pipFont1, fill=(0, 0, 0), stroke_width=3)
+        imageWithText.text(pipCostLocation, pipCostString, font=pipFont1, fill=(255, 255, 0))
     else:
         print("That is an invalid pip cost. Must be a whole number from 0-9 or X")
         exit()
@@ -130,7 +134,7 @@ def add_body(bodyText: str):
             case 3:
                 y_text = 355
             case 4:
-                y_text = 335
+                y_text = 338
 
         for line in lines:
             fakeLine = ""  # For constructing the line with symbols replaced
