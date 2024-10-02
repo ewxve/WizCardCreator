@@ -167,40 +167,40 @@
         <form method="POST">
             <label for="school">Card School:</label>
             <select id="school" name="school" required class="form-field">
-                <option value="Fire">Fire</option>
-                <option value="Ice">Ice</option>
-                <option value="Myth">Myth</option>
-                <option value="Storm">Storm</option>
-                <option value="Life">Life</option>
-                <option value="Death">Death</option>
-                <option value="Balance">Balance</option>
-                <option value="Astral">Astral</option>
-                <option value="Sun">Sun</option>
-                <option value="Lunar">Lunar</option>
+                <option value="Fire" {% if card_school == "Fire" %}selected{% endif %}>Fire</option>
+                <option value="Ice" {% if card_school == "Ice" %}selected{% endif %}>Ice</option>
+                <option value="Myth" {% if card_school == "Myth" %}selected{% endif %}>Myth</option>
+                <option value="Storm" {% if card_school == "Storm" %}selected{% endif %}>Storm</option>
+                <option value="Life" {% if card_school == "Life" %}selected{% endif %}>Life</option>
+                <option value="Death" {% if card_school == "Death" %}selected{% endif %}>Death</option>
+                <option value="Balance" {% if card_school == "Balance" %}selected{% endif %}>Balance</option>
+                <option value="Astral" {% if card_school == "Astral" %}selected{% endif %}>Astral</option>
+                <option value="Sun" {% if card_school == "Sun" %}selected{% endif %}>Sun</option>
+                <option value="Lunar" {% if card_school == "Lunar" %}selected{% endif %}>Lunar</option>
             </select><br>
             <label for="cardname">Card Name:</label>
             <input type="text" id="cardname" name="cardname" placeholder="Card Name" required class="form-field" value="{{ card_name if card_name else '' }}"><br>
-            <label for="cost">Pip Cost (0-9):</label>
+            <label for="cost">Pip Cost (0-14 or X):</label>
             <select id="cost" name="cost" required class="form-field">
-                <option value="X">X</option>
+                <option value="X" {% if card_cost == "X" %}selected{% endif %}>X</option>
                 {% for i in range(15) %}
-                    <option value="{{ i }}">{{ i }}</option>
+                    <option value="{{ i }}" {% if card_cost == i|string %}selected{% endif %}>{{ i }}</option>
                 {% endfor %}
             </select><br>
             <label for="type">Card Type:</label>
             <select id="type" name="type" required class="form-field">
-                <option value="Damage">Damage</option>
-                <option value="All Enemies">All Enemies</option>
-                <option value="Heal">Healing</option>
-                <option value="Drain">Life Steal</option>
-                <option value="Charm">Charm</option>
-                <option value="Ward">Ward</option>
-                <option value="Aura">Aura</option>
-                <option value="Global">Global</option>
-                <option value="Enchantment">Enchantment</option>
-                <option value="Manipulation">Manipulation</option>
-                <option value="Polymorph">Polymorph</option>
-                <option value="Mutate">Mutate</option>
+                <option value="Damage" {% if card_type == "Damage" %}selected{% endif %}>Damage</option>
+                <option value="All Enemies" {% if card_type == "All Enemies" %}selected{% endif %}>All Enemies</option>
+                <option value="Heal" {% if card_type == "Heal" %}selected{% endif %}>Healing</option>
+                <option value="Drain" {% if card_type == "Drain" %}selected{% endif %}>Life Steal</option>
+                <option value="Charm" {% if card_type == "Charm" %}selected{% endif %}>Charm</option>
+                <option value="Ward" {% if card_type == "Ward" %}selected{% endif %}>Ward</option>
+                <option value="Aura" {% if card_type == "Aura" %}selected{% endif %}>Aura</option>
+                <option value="Global" {% if card_type == "Global" %}selected{% endif %}>Global</option>
+                <option value="Enchantment" {% if card_type == "Enchantment" %}selected{% endif %}>Enchantment</option>
+                <option value="Manipulation" {% if card_type == "Manipulation" %}selected{% endif %}>Manipulation</option>
+                <option value="Polymorph" {% if card_type == "Polymorph" %}selected{% endif %}>Polymorph</option>
+                <option value="Mutate" {% if card_type == "Mutate" %}selected{% endif %}>Mutate</option>
                 <!-- <option value="Shadow">Shadow</option> -->
             </select><br>
             <label for="image">Card Art:</label>

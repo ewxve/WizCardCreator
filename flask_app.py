@@ -13,6 +13,7 @@ def index():
     inputType = ""
     inputImage = ""
     inputBodyText = ""
+    inputAccuracy = ""
 
     if request.method == 'POST':
         inputCardSchool = request.form.get('school')
@@ -35,12 +36,12 @@ def index():
 
         finalize()
 
-        return render_template('index.html', card_name=inputCardName, card_school=inputCardSchool, card_cost=inputPipCost, card_type=inputType, card_image=inputImage, card_body=inputBodyText)
+        return render_template('index.html', card_name=inputCardName, card_school=inputCardSchool, card_cost=inputPipCost, card_type=inputType, card_image=inputImage, card_body=inputBodyText, card_accuracy=inputAccuracy)
 
     return render_template('index.html')
 
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
+    app.run(debug=True)
+    #from waitress import serve
+    #serve(app, host="0.0.0.0", port=8080)
