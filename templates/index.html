@@ -164,7 +164,7 @@
 <body>
     <h1>Wizard101 Card Creator</h1>
     <div class="form-group">
-        <form method="POST">
+        <form action="/" method="POST" enctype="multipart/form-data">
             <label for="school">Card School:</label>
             <select id="school" name="school" required class="form-field">
                 <option value="Fire" {% if card_school == "Fire" %}selected{% endif %}>Fire</option>
@@ -204,7 +204,7 @@
                 <!-- <option value="Shadow">Shadow</option> -->
             </select><br>
             <label for="image">Card Art:</label>
-            <input type="text" name="image" id="image" placeholder="Enter an image URL" required class="form-field" value="{{ card_image if card_image else '' }}"><br>
+            <input type="file" name="image" id="image" required><br>
             <label for="bodyText">Main Text:</label>
             <textarea id="bodyText" name="body" placeholder="Type the desired card effects and click below to insert icons" required class="form-field" style="resize: none;">{{ card_body if card_body else '' }}</textarea>
 

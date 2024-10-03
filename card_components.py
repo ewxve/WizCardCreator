@@ -29,6 +29,11 @@ def initialize(cardSchool):
     imageWithText = ImageDraw.Draw(cardImage)
 
 
+def allowed_file(filename):
+    allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+
 def add_name(cardName: str):
     widthOrigin = find_origin(cardName, nameFont)
     if not widthOrigin < 12:
@@ -73,7 +78,12 @@ def add_accuracy(hitChance: str):
 
 def add_cost(pipCost: str):
     pipCostString = pipCost
-    if 0 <= int(pipCost) <= 9 or pipCost.lower() == "x":
+    if pipCost.lower() == "x":
+        pipCostLocation = (34, 62)
+        imageWithText.text(pipCostLocation, pipCostString, font=pipFont1, fill=(255, 255, 0))
+        imageWithText.text((pipCostLocation[0] - 1, pipCostLocation[1] - 6), pipCostString, font=pipFont2,
+                           fill=(0, 0, 0), stroke_width=0)
+    elif 0 <= int(pipCost) <= 9:
         pipCostLocation = (34, 62)
         imageWithText.text(pipCostLocation, pipCostString, font=pipFont1, fill=(255, 255, 0))
         imageWithText.text((pipCostLocation[0] - 1, pipCostLocation[1] - 6), pipCostString, font=pipFont2,
@@ -212,15 +222,11 @@ def add_type(cardType):
     cardImage.paste(typeImage, (261, 260), mask=typeImage)
 
 
-def add_image(image: str, cardSchool):
-    if image.startswith("http"):
-        response = requests.get(image, allow_redirects=True, headers=headers)
-        mainImage = Image.open(BytesIO(response.content))
-    else:
-        mainImage = Image.open(image)
-    sizedImage = mainImage.resize((290, 223))
+def add_image(image, cardSchool):
+    sizedImage = image.resize((290, 223))
     sizedImage = sizedImage.convert("RGBA")
     pngMask = Image.open("ArtMask.png")
+
     cardImage.paste(sizedImage, (24, 82), mask=sizedImage)
     cardBack = Image.open(f'{cardSchool}Back.png')
     cardImage.paste(cardBack, (0, 0), mask=pngMask)
