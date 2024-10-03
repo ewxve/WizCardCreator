@@ -24,6 +24,7 @@ def index():
     inputType = ""
     inputBodyText = ""
     inputAccuracy = ""
+    file_path = None
 
     if request.method == 'POST':
         inputCardSchool = request.form.get('school')
@@ -62,7 +63,13 @@ def index():
         add_school(inputCardSchool)
         add_type(inputType)
 
-        os.remove(file_path)
+        if file_path:  # Ensure file_path is defined
+            try:
+                os.remove(file_path)
+            except FileNotFoundError:
+                print("File not found. It may have already been deleted.")
+            except Exception as e:
+                print(f"Error deleting file: {e}")
 
         finalize()
 
